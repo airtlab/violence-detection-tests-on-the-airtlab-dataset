@@ -6,19 +6,17 @@ This repository contains the source code of the experiments presented in the pap
 
 The paper is currently under review for the publication in the [IEEE Access](https://ieeeaccess.ieee.org/) journal.
 
-Specifically, the source code is contained in a Jupyter notebook, which is available in the “notebook” directory of this repository.
+Specifically, the source code is contained in two Jupyter notebooks, which are available in the “notebook” directory of this repository.
 
-The experiments are accuracy tests of three deep learning based models on the classification of the videos of the AIRTLab dataset, to identify sequences of frames containing violent scenes.
+The experiments are accuracy tests of three deep learning based models on the classification of the videos of the AIRTLab dataset, the Hockey Fight dataset, and the Crowd Violence dataset to identify sequences of frames containing violent scenes.
 
 The experiments were run on Google Colab, using the GPU runtime and Keras 2.4.3, with the TensorFlow 2.4.1 backend, and scikit-learn 0.22.2.post1.
 
-You can directly check the notebook in this repository, or open it in Google Colab by clicking on the following badge.
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/airtlab/violence-detection-tests-on-the-airtlab-dataset/blob/master/notebook/Violence_Detection_on_the_AIRTLAB_Dataset.ipynb)
-
 ## Data Description
 
-The experiments are based on the videos of the AIRTLab dataset, available in the following GitHub repository
+The experiments are based on the videos of the AIRTLab dataset, the Hockey Fight dataset and the Crowd Violence dataset.
+
+The AIRTLab datase is available in the following GitHub repository
 
 ><https://github.com/airtlab/A-Dataset-for-Automatic-Violence-Detection-in-Videos>
 
@@ -26,12 +24,18 @@ The dataset contains 350 video clips which are MP4 video files (30 fps, 1920 x 1
 
 ><https://www.sciencedirect.com/science/article/pii/S2352340920314682>.
 
+The Hockey Fight dataset is described in
+> E. Bermejo Nievas, O. Deniz Suarez, G. Bueno García, and R. Sukthankar, *Violence detection in video using computer vision techniques*, in Computer Analysis of Images and Patterns, P. Real, D. Diaz-Pernil, H. Molina-Abril, A. Berciano, and W. Kropatsch, Eds. Berlin, Heidelberg: Springer Berlin Heidelberg, 2011, pp. 332–339.
+
+The Crowd Violence dataset is described in
+> T. Hassner, Y. Itcher, and O. Kliper-Gross, *Violent flows: Real-time detection of violent crowd behavior*, in 2012 IEEE Computer Society Conference on Computer Vision and Pattern Recognition Workshops, 2012, pp. 1–6.
+
 ## Model architectures
 
-Three different models were implemented and tested on the dataset:
-1. a combination of [C3D](https://arxiv.org/abs/1412.0767), a 3D CNN pre-trained on the [Sport-1M dataset](https://cs.stanford.edu/people/karpathy/deepvideo/) used as a feature extractor, and an SVM a classifier, in a transfer learning fashion. Specifically, the C3D original weights were used without retraining, while the SVM is trained from scratch on the AIRTLab dataset.
-2. a combination of C3D as a feature extractor and two fully connected layers to obtain an end-to-end network for classification. Also in this model the C3D original weights were used without training again, applying transfer learning. Only the two final fully connected layer are trained from scratch on the AIRTLab dataset.
-3. a combination of the [ConvLSTM architecture](https://arxiv.org/abs/1506.04214), and two fully connected layers, getting an end-to-end network for classification. The entire network is trained from scratch on the AIRTLab dataset.
+Three different models were implemented and tested on the datasets:
+1. a combination of [C3D](https://arxiv.org/abs/1412.0767), a 3D CNN pre-trained on the [Sport-1M dataset](https://cs.stanford.edu/people/karpathy/deepvideo/) used as a feature extractor, and an SVM a classifier, in a transfer learning fashion. Specifically, the C3D original weights were used without retraining, while the SVM is trained from scratch on the clips included in the datasets.
+2. a combination of C3D as a feature extractor and two fully connected layers to obtain an end-to-end network for classification. Also in this model the C3D original weights were used without training again, applying transfer learning. Only the two final fully connected layer are trained from scratch on the clips of the datasets.
+3. a combination of the [ConvLSTM architecture](https://arxiv.org/abs/1506.04214), and two fully connected layers, getting an end-to-end network for classification. The entire network is trained from scratch on the clips of the datasets.
 
 In the first two models C3D was used until the first fully connected layer ("fc6"). The SVM has a linear kernel
 and C = 1. The following tables list the layers of the two end-to-end models, based on C3D and ConvLSTM
@@ -75,4 +79,4 @@ and C = 1. The following tables list the layers of the two end-to-end models, ba
 
 ## Experiments
 
-The notebook contains three experiments (one for each model) based on the Stratified Shuffle Split strategy to split the available data in 80% for training and 20% for testing. With the two end-to-end models the 12.5% of the training data (i.e. 10% of the entire dataset) was use for validation. For each split the confusion matrix and a classification report are printed as output. Moreover, at the end of each experiment, the average value of accuracy, sensitivity, specificity, and F1-score are reported, as well as the ROC computed in each split.
+The notebooks contain the tests of each model. One notebook is dedicated to the tests on the AIRTLab dataset, while the other includes the test on the Hockey Fight and Crowd Violence datasets. The experimental evaluation is based on the Stratified Shuffle Split strategy to split the available data in 80% for training and 20% for testing. With the two end-to-end models the 12.5% of the training data (i.e. 10% of the entire dataset) was use for validation. For each split the confusion matrix and a classification report are printed as output. Moreover, at the end of each test, the average value of accuracy, sensitivity, specificity, and F1-score are reported, as well as the ROC computed in each split.
