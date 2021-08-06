@@ -6,11 +6,20 @@ This repository contains the source code of the experiments presented in the pap
 
 The paper is currently under review for the publication in the [IEEE Access](https://ieeeaccess.ieee.org/) journal.
 
-Specifically, the source code is contained in two Jupyter notebooks, which are available in the “notebook” directory of this repository.
-
 The experiments are accuracy tests of three deep learning based models on the classification of the videos of the AIRTLab dataset, the Hockey Fight dataset, and the Crowd Violence dataset to identify sequences of frames containing violent scenes.
 
-The experiments were run on Google Colab, using the GPU runtime and Keras 2.4.3, with the TensorFlow 2.4.1 backend, and scikit-learn 0.22.2.post1.
+Specifically, the source code implementing the three models and the experiments on the datasets is contained in two Jupyter notebooks, which are available in the “notebook” directory of this repository:
+
+- the [Violence_Detection_on_the_AIRTLAB_Dataset.ipynb](notebook/Violence_Detection_on_the_AIRTLAB_Dataset.ipynb) notebook includes the experiments of the three models on the AIRTLab dataset;
+- the [Violence_Detection_on_the_Hockey_Fight_and_Crowd_Violence_Dataset.ipynb](notebook/Violence_Detection_on_the_Hockey_Fight_and_Crowd_Violence_Dataset.ipynb) notebook includes the experiments of the three models on the Hockey Fight and Crowd Violence dataset
+
+Moreover, there are four additional notebooks in the "notebook/transfer-learning" folder. Such notebook include accuracy tests on the AIRTLab, Hockey Fight, and Crowd Violence datasets with models composed of 2D CNN and a recurrent layer (ConvLSTM or Bidirectional-LSTM). Specifically:
+- the [Transfer_Learning_Violence_Detection_On_AIRTLab_Dataset_(2D_CNNs_+_Bi-LSTM).ipynb](notebook/transfer-learning/Transfer_Learning_Violence_Detection_On_AIRTLab_Dataset_(2D_CNNs_+_Bi-LSTM).ipynb) notebook includes the accuracy tests of five 2D CNNs trained on ImageNet combined with a Bidirectional-LSTM, on the AIRTLab dataset;
+- [Transfer_Learning_Violence_Detection_On_AIRTLab_Dataset_(2D_CNNs_+_ConvLSTM).ipynb](notebook/transfer-learning/Transfer_Learning_Violence_Detection_On_AIRTLab_Dataset_(2D_CNNs_+_ConvLSTM).ipynb) notebook includes the accuracy tests of five 2D CNNs trained on ImageNet combined with a ConvLSTM, on the AIRTLab dataset;
+- [Transfer_Learning_Violence_Detection_on_Hockey_Fight_And_Crowd_Violence_Datasets_(2D_CNNs_+_Bi-LSTM).ipynb](notebook/transfer-learning/Transfer_Learning_Violence_Detection_on_Hockey_Fight_And_Crowd_Violence_Datasets_(2D_CNNs_+_Bi-LSTM).ipynb) notebook includes the accuracy tests of five 2D CNNs trained on ImageNet combined with a Bidirectional-LSTM, on the Hockey Fight and Crowd Violence datasets;
+- [Transfer_Learning_Violence_Detection_on_Hockey_Fight_And_Crowd_Violence_Datasets_(2D_CNNs_+_ConvLSTM).ipynb](notebook/transfer-learning/Transfer_Learning_Violence_Detection_on_Hockey_Fight_And_Crowd_Violence_Datasets_(2D_CNNs_+_ConvLSTM).ipynb) notebook includes the accuracy tests of five 2D CNNs trained on ImageNet combined with a ConvLSTM, on the Hockey Fight and Crowd Violence datasets;
+
+All the experiments were run on Google Colab, using the GPU runtime and Keras 2.4.3, with the TensorFlow 2.4.1 backend, and scikit-learn 0.22.2.post1.
 
 ## Data Description
 
@@ -75,8 +84,41 @@ and C = 1. The following tables list the layers of the two end-to-end models, ba
 | Flatten                                        | (None, 774400)       |           0 |
 | Dense, *256 units*, *ReLU activation*          | (None, 256)          |   198246656 |
 | Dropout, *0.5*                                 | (None, 256)          |           0 |
-| Dense,  *1 unit*, *Sigmoid activation*         | (None, 1)            |         267 |
+| Dense,  *1 unit*, *Sigmoid activation*         | (None, 1)            |         257 |
 
 ## Experiments
 
-The notebooks contain the tests of each model. One notebook is dedicated to the tests on the AIRTLab dataset, while the other includes the test on the Hockey Fight and Crowd Violence datasets. The experimental evaluation is based on the Stratified Shuffle Split strategy to split the available data in 80% for training and 20% for testing. With the two end-to-end models the 12.5% of the training data (i.e. 10% of the entire dataset) was use for validation. For each split the confusion matrix and a classification report are printed as output. Moreover, at the end of each test, the average value of accuracy, sensitivity, specificity, and F1-score are reported, as well as the ROC computed in each split.
+The experimental evaluation of the described models is based on the Stratified Shuffle Split strategy to split the available data in 80% for training and 20% for testing. With the two end-to-end models the 12.5% of the training data (i.e. 10% of the entire dataset) was use for validation. For each split the confusion matrix and a classification report are printed as output. Moreover, at the end of each test, the average value of accuracy, sensitivity, specificity, and F1-score are reported, as well as the ROC computed in each split.
+
+To prove the effectiveness of the proposed models, we did also transfer learning experiments using five 2D CNNs pretrained on ImageNet:
+
+- VGG16 (https://keras.io/api/applications/vgg/#vgg16-function)
+- VGG19 (https://keras.io/api/applications/vgg/#vgg19-function)
+- ResNet50V2 (https://keras.io/api/applications/resnet/#resnet50v2-function)
+- Xception (https://keras.io/api/applications/xception/)
+- NASNet Mobile (https://keras.io/api/applications/nasnet/#nasnetmobile-function)
+
+These five 2D CNN were combined with a recurrent layer to work on videos, and with fully connected layers to perform the final classification. A Bidirectional-LSTM (Bi-LSTM) and a ConvLSTM were used as recurrent layer. Therefore, a total of 10 models was tested, according to the following tables. Note that the number of parameter of the recurrent layer (Bi-LSTM or ConvLSTM) depends on the previous 2D CNN.
+
+### 2D CNNs and Bi-LSTM
+
+| Layer Type                                     | Output Shape         | Parameter # |
+|:-----------------------------------------------|:---------------------|------------:|
+| Time Distributed 2D CNN                        | -                    |           - |
+| Time Distributed Flatten                       | -                    |           0 |
+| Bi-LSTM, *128 units*                           | (None, 256)          |           - |
+| Dropout, *0.5*                                 | (None, 256)          |           0 |
+| Dense,  *128 units*, *ReLU activation*         | (None, 128)          |         32896 |
+| Dropout, *0.5*                                 | (None, 128)          |           0 |
+| Dense,  *1 unit*, *Sigmoid activation*         | (None, 1)            |         129 |
+
+### 2D CNNs and ConvLSTM
+
+| Layer Type                                     | Output Shape         | Parameter # |
+|:-----------------------------------------------|:---------------------|------------:|
+| Time Distributed 2D CNN                        | -                    |           - |
+| ConvLSTM2D, *64 3x3 filters*                   | (None, 5, 5, 64)     |           - |
+| Flatten                                        | (None, 1600)         |           0 |
+| Dense, *256 units*, *ReLU activation*          | (None, 256)          |   198246656 |
+| Dropout, *0.5*                                 | (None, 256)          |           0 |
+| Dense,  *1 unit*, *Sigmoid activation*         | (None, 1)            |         257 |
