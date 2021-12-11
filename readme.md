@@ -2,16 +2,14 @@
 
 This repository contains the source code of the experiments presented in the paper
 
->P. Sernani, N. Falcionelli, S. Tomassini, P. Contardo, and A.F. Dragoni, *Deep learning for automatic violence detection: tests on the AIRTLab dataset*.
-
-The paper is currently under review for the publication in the [IEEE Access](https://ieeeaccess.ieee.org/) journal.
+>P. Sernani, N. Falcionelli, S. Tomassini, P. Contardo and A. F. Dragoni, "Deep Learning for Automatic Violence Detection: Tests on the AIRTLab Dataset," in IEEE Access, vol. 9, pp. 160580-160595, 2021, doi: 10.1109/ACCESS.2021.3131315.
 
 The experiments are accuracy tests of three deep learning based models on the classification of the videos of the AIRTLab dataset, the Hockey Fight dataset, and the Crowd Violence dataset to identify sequences of frames containing violent scenes.
 
 Specifically, the source code implementing the three models and the experiments on the datasets is contained in two Jupyter notebooks, which are available in the “notebook” directory of this repository:
 
 - the "[Violence_Detection_on_the_AIRTLAB_Dataset.ipynb](notebook/Violence_Detection_on_the_AIRTLAB_Dataset.ipynb)" notebook includes the experiments of the three models on the AIRTLab dataset;
-- the "[Violence_Detection_on_the_Hockey_Fight_and_Crowd_Violence_Dataset.ipynb](notebook/Violence_Detection_on_the_Hockey_Fight_and_Crowd_Violence_Dataset.ipynb)" notebook includes the experiments of the three models on the Hockey Fight and Crowd Violence dataset
+- the "[Violence_Detection_on_the_Hockey_Fight_and_Crowd_Violence_Datasets.ipynb](notebook/Violence_Detection_on_the_Hockey_Fight_and_Crowd_Violence_Datasets.ipynb)" notebook includes the experiments of the three models on the Hockey Fight and Crowd Violence dataset
 
 Moreover, there are four additional notebooks in the "notebook/transfer-learning" folder. Such notebook include accuracy tests on the AIRTLab, Hockey Fight, and Crowd Violence datasets with models composed of 2D CNN and a recurrent layer (ConvLSTM or Bidirectional-LSTM). Specifically:
 - the "[Transfer_Learning_Violence_Detection_On_AIRTLab_Dataset_(2D_CNNs_Bi-LSTM).ipynb](notebook/transfer-learning/Transfer_Learning_Violence_Detection_On_AIRTLab_Dataset_(2D_CNNs_Bi_LSTM).ipynb)" notebook includes the accuracy tests of five 2D CNNs trained on ImageNet combined with a Bidirectional-LSTM, on the AIRTLab dataset;
@@ -20,6 +18,25 @@ Moreover, there are four additional notebooks in the "notebook/transfer-learning
 - the "[Transfer_Learning_Violence_Detection_on_Hockey_Fight_And_Crowd_Violence_Datasets_(2D_CNNs_Conv-LSTM).ipynb](notebook/transfer-learning/Transfer_Learning_Violence_Detection_on_Hockey_Fight_And_Crowd_Violence_Datasets_(2D_CNNs_ConvLSTM).ipynb)" notebook includes the accuracy tests of five 2D CNNs trained on ImageNet combined with a ConvLSTM, on the Hockey Fight and Crowd Violence datasets;
 
 All the experiments were run on Google Colab, using the GPU runtime and Keras 2.4.3, with the TensorFlow 2.4.1 backend, and scikit-learn 0.22.2.post1.
+
+## Source code release agreement
+
+The source code of the experiments is freely released for research and educational purposes. Please cite as
+- P. Sernani, N. Falcionelli, S. Tomassini, P. Contardo and A. F. Dragoni, "Deep Learning for Automatic Violence Detection: Tests on the AIRTLab Dataset," in IEEE Access, vol. 9, pp. 160580-160595, 2021, doi: 10.1109/ACCESS.2021.3131315.
+	 
+Bibtex entry:
+
+	 @article{Sernani2021,
+	   author={Sernani, Paolo and Falcionelli, Nicola and Tomassini, Selene and Contardo, Paolo and Dragoni, Aldo Franco},
+	   journal={IEEE Access}, 
+	   title={Deep Learning for Automatic Violence Detection: Tests on the {AIRTLab} Dataset}, 
+	   year={2021},
+	   volume={9},
+	   pages={160580-160595},
+	   doi={10.1109/ACCESS.2021.3131315}
+	 }
+
+The paper is open access and available here: <https://ieeexplore.ieee.org/document/9627980>.
 
 ## Data Description
 
